@@ -108,11 +108,20 @@ function drawBall(){
 function moveBall(){
     currentBallPosition[0] += xDirection;
     currentBallPosition[1] += yDirection;
+    collisionDetection();
 };
 
+// checking when teh ball hits the walls or the blocks
 function collisionDetection(){
-    if(currentBallPosition[0] ){
-        
+    if(currentBallPosition[0] > (boardWidth - ballHeight)){
+        switchDirection();
+    }
+};
+
+function switchDirection(){
+    if(xDirection === 2 && yDirection === 2){
+        currentBallPosition[0] -=2;
+        return;
     }
 }
 
