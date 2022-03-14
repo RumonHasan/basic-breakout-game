@@ -1,4 +1,5 @@
 const gridElement = document.querySelector('[data-grid]'); // primary grid selectors 
+const scoreDisplay = document.querySelector('[data-score]');
 // globals
 const blockWidth = 100;
 const blockHeight = 20;
@@ -24,7 +25,8 @@ class Block {
     constructor(xAxis, yAxis){
         // bottom left point will serve as the anchor point
         this.bottomLeft = [xAxis, yAxis];
-        this.bottomRight = [xAxis + blockWidth, yAxis];
+        // points will be used to determine the contact of the ball
+        this.bottomRight = [xAxis + blockWidth , yAxis];
         this.topRight = [xAxis + blockWidth, yAxis + blockHeight];
         this.topLeft = [xAxis, yAxis + blockHeight];
     }
@@ -108,21 +110,47 @@ function drawBall(){
 function moveBall(){
     currentBallPosition[0] += xDirection;
     currentBallPosition[1] += yDirection;
+    drawBall();
     collisionDetection();
 };
 
-// checking when teh ball hits the walls or the blocks
+// main function for checking all types of collisions
 function collisionDetection(){
-    if(currentBallPosition[0] > (boardWidth - ballHeight)){
+    // block collision check
+
+
+    // board border collision check
+    if(currentBallPosition[0] >= (boardWidth - ballHeight) || currentBallPosition[1] >= (boardHeight - ballHeight)
+    || currentBallPosition[0] <= 0 ){
         switchDirection();
+    }
+
+    // ground hit collision check
+    if(currentBallPosition[1] <= 0){
+        clearInterval(timerId);
+        scoreDisplay.innerHTML= 'YOU SUCK';
+        document.removeEventListener('keydown', paddleControls);
     }
 };
 
+// switching direction of the ball after colition
 function switchDirection(){
     if(xDirection === 2 && yDirection === 2){
-        currentBallPosition[0] -=2;
+        yDirection = -2;
+        return;
+    };
+    if(xDirection === 2 && yDirection === -2){
+        xDirection = -2;
+        return;
+    };
+    if(xDirection === -2 && yDirection === -2){
+        yDirection = 2;
         return;
     }
-}
+    if(xDirection === -2 && yDirection === 2){
+        xDirection = 2;
+        return;
+    }
+};
 
 timerId = setInterval(moveBall, 30);
