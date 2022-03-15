@@ -19,6 +19,8 @@ const ballInitialPosition = [230, 40];
 let currentBallPosition = ballInitialPosition;
 // timer id
 let timerId;
+// score
+let score;
 
 // main block object
 class Block {
@@ -126,10 +128,12 @@ function collisionDetection(){
             switchDirection();
         }
     }
-
     // paddle collision detection
+    if((currentBallPosition[0] > currentPosition[0] && currentBallPosition[0] < currentPosition[0] + blockWidth) &&
+    (currentBallPosition[1] > currentPosition[1] && currentBallPosition[1] < currentPosition[1] + blockHeight)){
+        switchDirection();
+    }
     
-
     // board border collision check
     if(currentBallPosition[0] >= (boardWidth - ballHeight) || currentBallPosition[1] >= (boardHeight - ballHeight)
     || currentBallPosition[0] <= 0 ){
