@@ -117,7 +117,18 @@ function moveBall(){
 // main function for checking all types of collisions
 function collisionDetection(){
     // block collision check
+    for(let i =0; i < blocks.length; i++){
+        if((currentBallPosition[0] > blocks[i].bottomLeft[0] && currentBallPosition[0] < blocks[i].bottomRight[0]) && 
+        ((currentBallPosition[1] + ballHeight) > blocks[i].bottomLeft[1] && currentBallPosition[1] < blocks[i].topLeft[1])){
+            const allBlocks = Array.from(document.querySelectorAll('.block'));
+            allBlocks[i].classList.remove('block');
+            blocks.splice(i, 1);
+            switchDirection();
+        }
+    }
 
+    // paddle collision detection
+    
 
     // board border collision check
     if(currentBallPosition[0] >= (boardWidth - ballHeight) || currentBallPosition[1] >= (boardHeight - ballHeight)
