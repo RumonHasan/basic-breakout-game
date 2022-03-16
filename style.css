@@ -43,3 +43,16 @@ body {
   background: red;
   position: absolute;
 }
+
+.hide {
+  display: none;
+}
+
+.start-header {
+  --size: 30;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: calc(var(--size) * 1px);
+}

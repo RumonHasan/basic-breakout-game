@@ -1,5 +1,6 @@
 const gridElement = document.querySelector('[data-grid]'); // primary grid selectors 
 const scoreDisplay = document.querySelector('[data-score]');
+const startElement = document.querySelector('[data-start]'); // dom start element
 // globals
 const blockWidth = 100;
 const blockHeight = 20;
@@ -22,7 +23,10 @@ let timerId;
 // score
 let score;
 
-// main block object
+// start control
+document.addEventListener('keydown', handleStartGame, {once:true});
+
+// class -> Block object
 class Block {
     constructor(xAxis, yAxis){
         // bottom left point will serve as the anchor point
@@ -33,6 +37,13 @@ class Block {
         this.topLeft = [xAxis, yAxis + blockHeight];
     }
 };
+// primary ball object
+class Ball{
+    constructor(ballDiameter){
+        this.ballDiameter = ballDiameter;
+    }
+}
+
 // blocks array containing each block object
 const blocks = [
     new Block(10, 270),
@@ -53,6 +64,14 @@ const blocks = [
     new Block(340, 210),
     new Block(450, 210),
 ];
+
+// primary start function
+function handleStartGame(){
+    startElement.classList.add('hide');
+    // enable paddle controls
+    document.addEventListener('keydown', paddleControls);
+    timerId = setInterval(moveBall, 30);
+}
 
 // drawing all the blocks
 function drawBlocks(){
@@ -92,9 +111,6 @@ function paddleControls(e){
             break;
     }
 }
-
-// key listener
-document.addEventListener('keydown', paddleControls);
 
 // draw ball
 const ballElement = document.createElement('div');
@@ -168,4 +184,4 @@ function switchDirection(){
     }
 };
 
-timerId = setInterval(moveBall, 30);
+
